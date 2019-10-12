@@ -3,21 +3,21 @@ package network
 type client struct {
 	id       uint64
 	conn     Conner
-	encoding EncodingMsger
+	msgParse MsgParser
 }
 
-func NewClient(id uint64, conn Conner, encoding EncodingMsger) *client {
+func NewClient(id uint64, conn Conner, msgParse MsgParser) *client {
 	return &client{
 		id:       id,
 		conn:     conn,
-		encoding: encoding,
+		msgParse: msgParse,
 	}
 }
 
 // Send unmarshaler data and send data
 // goroutine safe
 func (client *client) Send(pkg interface{}) error {
-	data, err := client.encoding.Unmarshaler(pkg)
+	data, err := client.msgParse.Unmarshaler(pkg)
 	if err != nil {
 		return err
 	}
@@ -32,7 +32,7 @@ func (client *client) Send(pkg interface{}) error {
 // goroutine safe
 func (client *client) Recv() (pkg interface{}, err error) {
 	data := <-client.conn.Recv()
-	pkg, err = client.encoding.Marshaler(data)
+	pkg, err = client.msgParse.Marshaler(data)
 	if err != nil {
 		return nil, err
 	}

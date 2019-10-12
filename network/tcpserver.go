@@ -46,9 +46,9 @@ func (s *TCPServer) Close() {
 
 func (s *TCPServer) Handle(conn net.Conn) {
 	c := NewConn(conn)
-	encoding := NewProtoMsg()
+	msgParse := NewProtoMsg()
 	id := s.ID()
-	client := NewClient(id, c, encoding)
+	client := NewClient(id, c, msgParse)
 	s.clients.Store(id, client)
 	client.conn.start()
 	s.clients.Delete(id)

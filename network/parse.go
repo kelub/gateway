@@ -14,3 +14,6 @@ func (m *ProtoMsg) Marshaler(b []byte) (interface{}, error) {
 func (m *ProtoMsg) Unmarshaler(data interface{}) ([]byte, error) {
 	return nil, nil
 }
+
+type JsonMsg struct {
+}

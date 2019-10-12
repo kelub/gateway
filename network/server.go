@@ -24,7 +24,7 @@ type Conner interface {
 	start() error
 }
 
-type EncodingMsger interface {
+type MsgParser interface {
 	Marshaler(b []byte) (interface{}, error)
 	Unmarshaler(data interface{}) ([]byte, error)
 }
