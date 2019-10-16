@@ -122,19 +122,23 @@ func (c *Conn) start() error {
 	c.sendCh = make(chan []byte, 100)
 	// TODO
 	c.recvedCh = make(chan []byte)
-	done := make(chan struct{})
-	defer close(done)
+	recvDoneCh := make(chan struct{})
+	sendDoneCh := make(chan struct{})
+	defer c.Close()
 	ctx, cancel := context.WithCancel(context.Background())
 	c.cancel = cancel
 
-	go c.recvLoop(ctx, done)
-	go c.sendLoop(ctx, done)
+	go c.recvLoop(ctx, recvDoneCh)
+	go c.sendLoop(ctx, sendDoneCh)
+
 	c.mu.Lock()
 	c.closed = false
 	c.mu.Unlock()
 	select {
-	case <-done:
-		c.Close()
+	case <-recvDoneCh:
+		return nil
+	case <-sendDoneCh:
+		return nil
 	}
 
 	logEntry.Debugln("start out")
@@ -146,6 +150,7 @@ func (c *Conn) sendLoop(ctx context.Context, done chan<- struct{}) {
 		"func_name": "Conn sendLoop",
 		"name":      "sendLoop",
 	})
+	defer close(done)
 	defer logEntry.Debugln("out")
 	for {
 		select {
@@ -169,6 +174,7 @@ func (c *Conn) recvLoop(ctx context.Context, done chan<- struct{}) {
 		"func_name": "Conn recvLoop",
 		"name":      "recvLoop",
 	})
+	defer close(done)
 	defer logEntry.Debugln("out")
 	for {
 		select {
