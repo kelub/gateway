@@ -2,6 +2,23 @@ package network
 
 import ()
 
+// ServerType
+type ServerType int
+
+const (
+	TCP ServerType = iota + 1
+	WS
+	WSS
+)
+
+// EncodeType
+type EncodeType int
+
+const (
+	PROTO EncodeType = iota + 1
+	JSON
+)
+
 type Server interface {
 	// Start start server
 	Start()

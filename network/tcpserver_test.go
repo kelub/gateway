@@ -32,7 +32,8 @@ func (client *TCPClient) Start() (*Conn, error) {
 
 func Test_Server(t *testing.T) {
 	server := &TCPServer{
-		Addr: "127.0.0.1:8585",
+		Addr:       "127.0.0.1:8585",
+		encodeType: PROTO,
 	}
 	go func() {
 		time.Sleep(10 * time.Second)
