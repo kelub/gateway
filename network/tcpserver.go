@@ -1,10 +1,11 @@
 package network
 
 import (
-	"github.com/Sirupsen/logrus"
 	"net"
 	"sync"
 	"time"
+
+	"github.com/Sirupsen/logrus"
 )
 
 func init() {

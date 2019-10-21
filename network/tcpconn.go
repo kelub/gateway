@@ -3,11 +3,12 @@ package network
 import (
 	"context"
 	"fmt"
-	"github.com/Sirupsen/logrus"
 	"io"
 	"net"
 	"sync"
 	"time"
+
+	"github.com/Sirupsen/logrus"
 )
 
 type connBase struct {
@@ -125,6 +126,7 @@ func (c *Conn) start() error {
 	recvDoneCh := make(chan struct{})
 	sendDoneCh := make(chan struct{})
 	defer c.Close()
+	defer logEntry.Debugln("start out")
 	ctx, cancel := context.WithCancel(context.Background())
 	c.cancel = cancel
 
@@ -140,8 +142,6 @@ func (c *Conn) start() error {
 	case <-sendDoneCh:
 		return nil
 	}
-
-	logEntry.Debugln("start out")
 	return nil
 }
 

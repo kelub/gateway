@@ -1,9 +1,11 @@
 package network
 
 import (
-	"github.com/stretchr/testify/assert"
 	"net"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+
 	//"time"
 	"time"
 )

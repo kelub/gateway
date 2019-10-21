@@ -1,12 +1,9 @@
 package network
 
-import ()
-
-// ServerType
 type ServerType int
 
 const (
-	TCP ServerType = iota + 1
+	TCP ServerType = iota
 	WS
 	WSS
 )
@@ -15,7 +12,7 @@ const (
 type EncodeType int
 
 const (
-	PROTO EncodeType = iota + 1
+	PROTO EncodeType = iota
 	JSON
 )
 
@@ -25,8 +22,8 @@ type Server interface {
 	// Close close server
 	Close()
 
-	// Handle msg handle
-	Handle()
+	// // Handle msg handle
+	// Handle()
 
 	// ID get a id
 	ID() uint64
