@@ -1,12 +1,13 @@
 package network
 
 import (
-	"github.com/Sirupsen/logrus"
-	"github.com/gorilla/websocket"
 	"net"
 	"net/http"
 	"sync"
 	"time"
+
+	"github.com/Sirupsen/logrus"
+	"github.com/gorilla/websocket"
 )
 
 var upgrader = websocket.Upgrader{} // use default options
