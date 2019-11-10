@@ -1,14 +1,14 @@
 package network
 
 import (
+	"testing"
+	"time"
+
 	"github.com/gorilla/websocket"
 	"github.com/stretchr/testify/assert"
-	"testing"
 
-	//"time"
 	"fmt"
 	"net/url"
-	"time"
 )
 
 type WSClient struct {
@@ -31,22 +31,21 @@ func (client *WSClient) Start() (*WSConn, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer conn.Close()
 	client.conn = conn
 	return NewWSConn(conn), nil
 }
 
-func Test_WSServer(t *testing.T) {
-	server := &WSServer{
-		Addr:       "127.0.0.1:8585",
-		encodeType: PROTO,
-	}
-	go func() {
-		time.Sleep(10 * time.Second)
+// func Test_WSServer(t *testing.T) {
+// 	server := &WSServer{
+// 		Addr:       "127.0.0.1:8585",
+// 		encodeType: PROTO,
+// 	}
+// 	go func() {
+// 		time.Sleep(10 * time.Second)
 
-	}()
-	server.Start(server.Addr)
-}
+// 	}()
+// 	server.Start(server.Addr)
+// }
 
 func Test_WSConn(t *testing.T) {
 	client := NewWSClient("127.0.0.1:8585")
@@ -55,7 +54,10 @@ func Test_WSConn(t *testing.T) {
 	fmt.Println("\n clientConn", clientConn)
 	sendData := "abcdefghijk"
 	err = clientConn.parse.Send(clientConn.conn, []byte(sendData))
-	fmt.Println("err: ", err)
-
+	// err = clientConn.conn.WriteMessage(websocket.BinaryMessage, []byte(sendData))
 	assert.Nil(t, err)
+	err = clientConn.conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
+	assert.Nil(t, err)
+	time.Sleep(5 * time.Second)
+	clientConn.Close()
 }

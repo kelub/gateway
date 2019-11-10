@@ -3,10 +3,11 @@ package network
 import (
 	"context"
 	"fmt"
-	"github.com/Sirupsen/logrus"
-	"github.com/gorilla/websocket"
 	"sync"
 	"time"
+
+	"github.com/Sirupsen/logrus"
+	"github.com/gorilla/websocket"
 )
 
 type wSConnBase struct {
@@ -17,11 +18,6 @@ func NewWSconnBase() *wSConnBase {
 }
 
 func (c *wSConnBase) Recv(conn *websocket.Conn) ([]byte, error) {
-	logEntry := logrus.WithFields(logrus.Fields{
-		"func_name": "wSConnBase Recv",
-		"name":      "Recv",
-	})
-	logEntry.Debugln("conn", conn)
 	_, message, err := conn.ReadMessage()
 	return message, err
 }
@@ -110,6 +106,7 @@ func (c *WSConn) start() error {
 		"func_name": "WSConn start",
 		"name":      "start",
 	})
+	logEntry.Debugln("start in")
 	c.sendCh = make(chan []byte, 100)
 	// TODO
 	c.recvedCh = make(chan []byte)
