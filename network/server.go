@@ -1,5 +1,9 @@
 package network
 
+import (
+	"net"
+)
+
 type ServerType int
 
 const (
@@ -34,7 +38,7 @@ type Conner interface {
 	Send([]byte) error
 	Recv() <-chan []byte
 	Close() error
-
+	GetRemoteAddr() net.Addr
 	start() error
 }
 

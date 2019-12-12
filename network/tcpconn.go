@@ -216,3 +216,7 @@ func (c *Conn) Send(b []byte) error {
 func (c *Conn) Recv() <-chan []byte {
 	return c.recvedCh
 }
+
+func (c *Conn) GetRemoteAddr() net.Addr{
+	return c.conn.RemoteAddr()
+}

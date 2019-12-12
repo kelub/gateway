@@ -3,6 +3,7 @@ package network
 import (
 	"context"
 	"fmt"
+	"net"
 	"sync"
 	"time"
 
@@ -209,4 +210,8 @@ func (c *WSConn) Send(b []byte) error {
 
 func (c *WSConn) Recv() <-chan []byte {
 	return c.recvedCh
+}
+
+func (c *WSConn) GetRemoteAddr() net.Addr{
+	return c.conn.RemoteAddr()
 }
