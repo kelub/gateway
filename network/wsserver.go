@@ -22,6 +22,7 @@ type WSServer struct {
 	clients sync.Map //ID(uint64): *client
 
 	encodeType EncodeType
+	enableHTTPS    bool
 }
 
 func (ws *WSServer) Start(addr string) error {
@@ -33,7 +34,11 @@ func (ws *WSServer) Start(addr string) error {
 
 	http.HandleFunc("/ws", ws.WSHandler)
 	logEntry.Infoln("WSServer Listen Addr: ", addr)
-	err = http.ListenAndServe(addr, nil)
+	if ws.enableHTTPS {
+		err = http.ListenAndServeTLS(addr,"./server.crt","./server.key",nil)
+	}else{
+		err = http.ListenAndServe(addr, nil)
+	}
 	logEntry.Errorln(err)
 	return err
 }
