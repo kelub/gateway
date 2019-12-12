@@ -197,7 +197,7 @@ func (c *WSConn) Send(b []byte) error {
 		c.mu.Unlock()
 		return fmt.Errorf("conn colsed")
 	}
-	timer := time.NewTicker(c.sendTimeout)
+	timer := time.NewTimer(c.sendTimeout)
 	defer timer.Stop()
 	select {
 	case <-timer.C:
