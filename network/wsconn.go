@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
+	"github.com/sirupsen/logrus"
 )
 
 type wSConnBase struct {
@@ -212,6 +212,6 @@ func (c *WSConn) Recv() <-chan []byte {
 	return c.recvedCh
 }
 
-func (c *WSConn) GetRemoteAddr() net.Addr{
+func (c *WSConn) GetRemoteAddr() net.Addr {
 	return c.conn.RemoteAddr()
 }

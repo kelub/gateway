@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 type connBase struct {
@@ -217,6 +217,6 @@ func (c *Conn) Recv() <-chan []byte {
 	return c.recvedCh
 }
 
-func (c *Conn) GetRemoteAddr() net.Addr{
+func (c *Conn) GetRemoteAddr() net.Addr {
 	return c.conn.RemoteAddr()
 }

@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
+	"github.com/sirupsen/logrus"
 )
 
 var upgrader = websocket.Upgrader{} // use default options
@@ -21,8 +21,8 @@ type WSServer struct {
 	ln      net.Listener
 	clients sync.Map //ID(uint64): *client
 
-	encodeType EncodeType
-	enableHTTPS    bool
+	encodeType  EncodeType
+	enableHTTPS bool
 }
 
 func (ws *WSServer) Start(addr string) error {
@@ -35,8 +35,8 @@ func (ws *WSServer) Start(addr string) error {
 	http.HandleFunc("/ws", ws.WSHandler)
 	logEntry.Infoln("WSServer Listen Addr: ", addr)
 	if ws.enableHTTPS {
-		err = http.ListenAndServeTLS(addr,"./server.crt","./server.key",nil)
-	}else{
+		err = http.ListenAndServeTLS(addr, "./server.crt", "./server.key", nil)
+	} else {
 		err = http.ListenAndServe(addr, nil)
 	}
 	logEntry.Errorln(err)
